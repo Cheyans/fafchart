@@ -121,8 +121,8 @@ public class Main {
                         int fileSize = theReplay.available();
                         byte[] replayBytes = new byte[fileSize];
 
-                        // TODO Why is this here?
-                        // theReplay.read(replayBytes);
+                        // TODO How does this work?
+                        theReplay.read(replayBytes);
 
                         //splitting it by newlines
                         String[] rp = new String(replayBytes).split("\\n");

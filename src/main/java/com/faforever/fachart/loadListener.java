@@ -78,8 +78,8 @@ public class loadListener implements ActionListener {
                         byte[] replayBytes = new byte[fileSize];
                         //reading the replay
 
-                        // TODO why is this here?
-                        // theReplay.read(replayBytes);
+                        // TODO how does this work?
+                        theReplay.read(replayBytes);
 
                         //splitting it by newlines
                         String[] rp = new String(replayBytes).split("\\n");
