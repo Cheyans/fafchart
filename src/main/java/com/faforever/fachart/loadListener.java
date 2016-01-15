@@ -12,12 +12,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
-import java.util.Scanner;
 
-import static javax.swing.JFileChooser.*;
+import static javax.swing.JFileChooser.APPROVE_OPTION;
 
 
 /**
@@ -25,13 +26,13 @@ import static javax.swing.JFileChooser.*;
  * analysis
  */
 public class loadListener implements ActionListener {
-    JFrame Parent;
-    Hashtable<String, String> uTable;
+    JFrame parent;
+    Hashtable<String, String> unitTable;
 
 
     public loadListener(JFrame p, Hashtable<String, String> unitTable) {
-        Parent = p;
-        uTable = unitTable;
+        parent = p;
+        this.unitTable = unitTable;
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -41,17 +42,15 @@ public class loadListener implements ActionListener {
         fc.setFileFilter(new ReplayFilter());
 
         try {
-            Scanner scan = new Scanner(new File("configSave"));
-            String previousFileDir = scan.nextLine();
-            fc.setCurrentDirectory(new File(previousFileDir));
-        } catch (FileNotFoundException d) {
+            BufferedReader bufferedReader = Files.newBufferedReader(Paths.get("configSave"));
+            fc.setCurrentDirectory(new File(bufferedReader.readLine()));
+        } catch (IOException d) {
             System.err.println("Error: Could not open previous file location");
-
             fc.setCurrentDirectory(new File("C:\\ProgramData\\FAForever\\replays"));
         }
 
 
-        int returnVal = fc.showOpenDialog(Parent);
+        int returnVal = fc.showOpenDialog(parent);
 
         //Open command by user, or if cancelled do nothing.
         if (returnVal == APPROVE_OPTION) {
@@ -67,7 +66,7 @@ public class loadListener implements ActionListener {
             }
 
             for (File aFile : file) {
-                JDialog temp = new JDialog(Parent, aFile.getName(), false);
+                JDialog temp = new JDialog(parent, aFile.getName(), false);
                 temp.setMaximumSize(new Dimension(700, 600));
                 temp.setPreferredSize(new Dimension(700, 600));
                 FileInputStream theReplay;
@@ -117,9 +116,9 @@ public class loadListener implements ActionListener {
                         }
 
                         try {
-                            temp.getContentPane().add(new FACTabbedPane(replayBytes, uTable, replayBytes.length));
+                            temp.getContentPane().add(new FACTabbedPane(replayBytes, unitTable, replayBytes.length));
                         } catch (NoClassDefFoundError b) {
-                            JDialog noLibrary = new JDialog(Parent, "Missing library", true);
+                            JDialog noLibrary = new JDialog(parent, "Missing library", true);
                             noLibrary.setPreferredSize(new Dimension(150, 50));
                             noLibrary.setResizable(false);
                             JLabel missing = new JLabel("Chart library is missing.");
@@ -128,7 +127,7 @@ public class loadListener implements ActionListener {
                             noLibrary.setVisible(true);
                         }
                     } catch (IOException t) {
-                        JDialog noData = new JDialog(Parent, "Replay:" + aFile.getName() + " data inaccessible", true);
+                        JDialog noData = new JDialog(parent, "Replay:" + aFile.getName() + " data inaccessible", true);
                         noData.setPreferredSize(new Dimension(400, 50));
                         noData.setResizable(false);
                         JLabel missing = new JLabel("Replay data could not be read." + t.getMessage());
@@ -137,7 +136,7 @@ public class loadListener implements ActionListener {
                         noData.setVisible(true);
                     }
                 } catch (FileNotFoundException g) {
-                    JDialog noFile = new JDialog(Parent, "Replay:" + aFile.getName() + " not found.", true);
+                    JDialog noFile = new JDialog(parent, "Replay:" + aFile.getName() + " not found.", true);
                     noFile.setPreferredSize(new Dimension(200, 50));
                     noFile.setResizable(false);
                     JLabel missing = new JLabel("Replay:" + aFile.getName() + " is not found");
