@@ -39,17 +39,17 @@ public class FACTabbedPane extends JTabbedPane implements ActionListener {
         ReplayReader theAnalyzer = new ReplayReader(pwd, file_size);
         Replay theReplay = theAnalyzer.Analyze(pwd, unitTable);
 
-        JComponent cpmPanel = CPMchart(theReplay);
+        JComponent cpmPanel = CpmChart(theReplay);
         this.addTab("CPM", cpmPanel);
         this.setMnemonicAt(0, KeyEvent.VK_1);
-        JComponent microPanel = MACROchart(theReplay);
+        JComponent microPanel = MacroChart(theReplay);
         this.addTab("Macro/Micro", microPanel);
         this.setMnemonicAt(1, KeyEvent.VK_2);
-        JComponent actionDistro = ACTIONchart(theReplay);
+        JComponent actionDistro = ActionChart(theReplay);
         this.addTab("Action Distro", actionDistro);
         this.setMnemonicAt(2, KeyEvent.VK_3);
-        JComponent boPanel = BOchart(theReplay);
-        this.addTab("Build Order", boPanel);
+        JComponent buildOrderPanel = BuildOrderChart(theReplay);
+        this.addTab("Build Order", buildOrderPanel);
         this.setMnemonicAt(3, KeyEvent.VK_4);
 
 
@@ -62,7 +62,7 @@ public class FACTabbedPane extends JTabbedPane implements ActionListener {
      * @param theReplay Takes the replay as a Replay, my container class for data
      * @return JComponent panel with editor pane listing build orders
      */
-    public JComponent BOchart(Replay theReplay) {
+    public JComponent BuildOrderChart(Replay theReplay) {
         JPanel boPanel = new JPanel();
         boPanel.setLayout(new BoxLayout(boPanel, BoxLayout.PAGE_AXIS));
         buildOrderList = new JEditorPane();
@@ -92,12 +92,12 @@ public class FACTabbedPane extends JTabbedPane implements ActionListener {
     }
 
     /**
-     * ACTIONchart is a function which creates the panel for the action distributions
+     * ActionChart is a function which creates the panel for the action distributions
      *
      * @param theReplay Takes the replay as a Replay, my container class for data
      * @return JComponent panel with graphs of actions distributions
      */
-    public JComponent ACTIONchart(Replay theReplay) {
+    public JComponent ActionChart(Replay theReplay) {
 
         String[] move = {"Move"};
         double[][] moveList = new double[(int) theReplay.NumSources][1];
@@ -247,7 +247,7 @@ public class FACTabbedPane extends JTabbedPane implements ActionListener {
      * @param theReplay Takes the replay as a Replay, my container class for data
      * @return JComponent panel containg graphs of micro and macro for all players
      */
-    public JComponent MACROchart(Replay theReplay) {
+    public JComponent MacroChart(Replay theReplay) {
         XYSeries[][] series = new XYSeries[(int) theReplay.NumSources][2];
         XYSeriesCollection[] dataset = new XYSeriesCollection[(int) theReplay.NumSources];
         for (int i = 0; i < theReplay.NumSources; i++) {
@@ -295,7 +295,7 @@ public class FACTabbedPane extends JTabbedPane implements ActionListener {
      * @param theReplay Takes the replay as a Replay, my container class for data
      * @return JComponent panel showing the CPM for every player
      */
-    public JComponent CPMchart(Replay theReplay) {
+    public JComponent CpmChart(Replay theReplay) {
         XYSeries[] series = new XYSeries[(int) theReplay.NumSources];
         XYSeriesCollection dataset = new XYSeriesCollection();
         for (int i = 0; i < theReplay.NumSources; i++) {
