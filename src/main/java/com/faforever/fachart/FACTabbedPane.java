@@ -6,7 +6,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYDifferenceRenderer;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.general.DatasetUtilities;
 import org.jfree.data.xy.XYSeries;
@@ -27,7 +26,7 @@ import java.util.Hashtable;
  */
 public class FACTabbedPane extends JTabbedPane implements ActionListener {
 
-    JEditorPane bolist;
+    JEditorPane buildOrderList;
 
     /**
      * This constructor creates the tabbed pane which will contain the analysis
@@ -66,12 +65,12 @@ public class FACTabbedPane extends JTabbedPane implements ActionListener {
     public JComponent BOchart(Replay theReplay) {
         JPanel boPanel = new JPanel();
         boPanel.setLayout(new BoxLayout(boPanel, BoxLayout.PAGE_AXIS));
-        bolist = new JEditorPane();
-        String thebo = "";
+        buildOrderList = new JEditorPane();
+        String buildOrder = "";
         if (theReplay.buildorder != null) {
-            thebo = theReplay.buildorder.writeBO();
+            buildOrder = theReplay.buildorder.writeBO();
         }
-        bolist.setText(thebo);
+        buildOrderList.setText(buildOrder);
         JButton exportBO = new JButton("Save Build Order");
         exportBO.addActionListener(this);
         JButton exportBO2 = new JButton("Save Build Order");
@@ -81,14 +80,14 @@ public class FACTabbedPane extends JTabbedPane implements ActionListener {
         JPanel export2 = new JPanel();
         export2.add(exportBO2);
         boPanel.add(export);
-        boPanel.add(bolist);
+        boPanel.add(buildOrderList);
         boPanel.add(export2);
         JScrollPane editorScrollPane = new JScrollPane(boPanel);
 
         editorScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         //JPanel boPanel = new JPanel();
-        //boPanel.add(bolist);
+        //boPanel.add(buildOrderList);
         return editorScrollPane;
     }
 
@@ -367,7 +366,7 @@ public class FACTabbedPane extends JTabbedPane implements ActionListener {
             } catch (FileNotFoundException a) {
                 System.err.println("Could not open file for writing Build order");
             }
-            theSave.println(bolist.getText());
+            theSave.println(buildOrderList.getText());
             theSave.close();
 
 

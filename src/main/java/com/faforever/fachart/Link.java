@@ -17,7 +17,7 @@ public class Link {
     public long commandId;
     public long[] entityIds;
 
-    int occurence;
+    int occurrence;
     String newLine = System.getProperty("line.separator");
 
     /**
@@ -38,7 +38,7 @@ public class Link {
         commandId = ci;
         entityIds = eis;
 
-        occurence = 1;
+        occurrence = 1;
     }
 
     /**
@@ -61,7 +61,7 @@ public class Link {
             cevent.next.previous = cevent;
         }
         if (temp.theObject.equals(cevent.theObject)) {
-            temp.occurence++;
+            temp.occurrence++;
         } else {
 
             cevent.previous = temp;
@@ -98,22 +98,22 @@ public class Link {
     public String writeBO() {
         String theBo = "Timestamp/Count/Action\n";
         Link temp = this;
-        int timemins;
-        int timesecs;
+        int timeMin;
+        int timeSec;
         if (!(this.next != null)) {
-            timemins = (int) Math.floor(this.timestamp / 600);
-            timesecs = (int) Math.floor((this.timestamp / 10) - timemins * 60);
-            theBo += String.format("%2d:%02d  %3dx  %s%s", timemins, timesecs, this.occurence, this.theObject, newLine);
+            timeMin = (int) Math.floor(this.timestamp / 600);
+            timeSec = (int) Math.floor((this.timestamp / 10) - timeMin * 60);
+            theBo += String.format("%2d:%02d  %3dx  %s%s", timeMin, timeSec, this.occurrence, this.theObject, newLine);
         }
         while (temp.next != null) {
-            timemins = (int) Math.floor(temp.timestamp / 600);
-            timesecs = (int) Math.floor((temp.timestamp / 10) - timemins * 60);
+            timeMin = (int) Math.floor(temp.timestamp / 600);
+            timeSec = (int) Math.floor((temp.timestamp / 10) - timeMin * 60);
             if (temp.previous != null) {
                 if (temp.previous.player != temp.player) {
                     theBo += newLine;
                 }
             }
-            theBo += String.format("%2d:%02d  %3dx  %s%s", timemins, timesecs, temp.occurence, temp.theObject, newLine);
+            theBo += String.format("%2d:%02d  %3dx  %s%s", timeMin, timeSec, temp.occurrence, temp.theObject, newLine);
             temp = temp.next;
         }
         return theBo;

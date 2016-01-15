@@ -14,12 +14,12 @@ import java.util.Hashtable;
 */
 public class ReplayReader {
 
-    byte[] thereplay;
+    byte[] theReplay;
     int endOfFile;
 
 
-    public ReplayReader(byte[] replaybytes, int file_length) {
-        thereplay = replaybytes;
+    public ReplayReader(byte[] replayBytes, int file_length) {
+        theReplay = replayBytes;
         endOfFile = file_length;
     }
 
@@ -59,20 +59,20 @@ public class ReplayReader {
      * @param parent The analyze function may need to pass message back to
      * the parent frame in case of errors/exceptions
      */
-    public Replay Analyze(byte[] thereplay, Hashtable<String, String> unitTable) {
+    public Replay Analyze(byte[] theReplay, Hashtable<String, String> unitTable) {
 
         Replay replayData = new Replay(unitTable);
 
         /////////////////Header
-        replayData.analyzeHeader(thereplay, endOfFile);
+        replayData.analyzeHeader(theReplay, endOfFile);
 
         ////////////////Everything else
-        replayData.setGameTime(thereplay);
-        replayData.setMicroAPM(thereplay);
+        replayData.setGameTime(theReplay);
+        replayData.setMicroAPM(theReplay);
 
-        replayData.setActionList(thereplay);
-        replayData.setAPMS_actionTotal(thereplay);
-        replayData.setBuildorder(thereplay);
+        replayData.setActionList(theReplay);
+        replayData.setAPMS_actionTotal(theReplay);
+        replayData.setBuildorder(theReplay);
 
 
         return replayData;
