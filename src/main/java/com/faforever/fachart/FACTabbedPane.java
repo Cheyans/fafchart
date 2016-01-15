@@ -236,9 +236,8 @@ public class FACTabbedPane extends JTabbedPane implements ActionListener {
         actionPanel.add(movePanel);
         actionPanel.add(commonPanel);
         actionPanel.add(actions);
-        JScrollPane actionScrollPane = new JScrollPane(actionPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         //JPanel actions = new JPanel();
-        return actionScrollPane;
+        return new JScrollPane(actionPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     }
 
 
@@ -258,12 +257,11 @@ public class FACTabbedPane extends JTabbedPane implements ActionListener {
             for (int j = 0; j < theReplay.MicroAPM.get(i).size(); j++) {
 
                 series[i][1].add(
-                        ((Point) theReplay.MicroAPM.get(i).get(j)).x,
-                        ((Point) theReplay.MicroAPM.get(i).get(j)).y);
+                        theReplay.MicroAPM.get(i).get(j).x,
+                        theReplay.MicroAPM.get(i).get(j).y);
             }
-            for (int j = 0; j < theReplay.APMS.get(i).size(); j++) {
-                series[i][0].add(((Point) theReplay.APMS.get(i).get(j)).x, ((Point) theReplay.APMS.get(i).get(j)).y);
-            }
+            for (int j = 0; j < theReplay.APMS.get(i).size(); j++)
+                series[i][0].add(theReplay.APMS.get(i).get(j).x, theReplay.APMS.get(i).get(j).y);
             dataset[i] = new XYSeriesCollection();
             dataset[i].addSeries(series[i][0]);
             dataset[i].addSeries(series[i][1]);
@@ -288,9 +286,8 @@ public class FACTabbedPane extends JTabbedPane implements ActionListener {
             plot.setRenderer((XYItemRenderer) new XYDifferenceRenderer(Color.green, Color.red, false));
             macro.add(new ChartPanel(chart));
         }
-        JScrollPane macroScrollPane = new JScrollPane(macro, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        return macroScrollPane;
+        return new JScrollPane(macro, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     }
 
     /**
@@ -361,7 +358,7 @@ public class FACTabbedPane extends JTabbedPane implements ActionListener {
             File file = fc.getSelectedFile();
             PrintWriter theSave = null;
             try {
-                if (TextFilter.getExtension(file) == null || !(TextFilter.getExtension(file).equals("txt"))) {
+                if (FileUtil.getExtension(file) == null || !(FileUtil.getExtension(file).equals("txt"))) {
                     theSave = new PrintWriter(file.getAbsolutePath() + ".txt");
                 } else {
                     theSave = new PrintWriter(file);
@@ -373,8 +370,6 @@ public class FACTabbedPane extends JTabbedPane implements ActionListener {
             theSave.println(bolist.getText());
             theSave.close();
 
-
-        } else {
 
         }
     }

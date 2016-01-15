@@ -167,17 +167,13 @@ public class Replay {
                 break;
             case 3: //LUA_TYPE_BOOL
                 Boolean value;
-                if (input[array_index] == 0) {
-                    value = false;
-                } else {
-                    value = true;
-                }
+                value = input[array_index] != 0;
                 result = value;
                 array_index++;
 
                 break;
             case 4: //LUA_TYPE_TABLE_BEGIN
-                Hashtable<Object, Object> tableLevel = new Hashtable<Object, Object>();
+                Hashtable<Object, Object> tableLevel = new Hashtable<>();
                 while (input[array_index] != 5) {
                     Object key = parseLuaTable(input);
                     Object v = parseLuaTable(input);

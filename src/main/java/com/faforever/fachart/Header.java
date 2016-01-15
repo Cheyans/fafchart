@@ -77,7 +77,7 @@ public class Header {
         //System.out.println(index);
         switch (type) {
             case 0: //LUA_TYPE_NUMBER
-                Long number = new Long(ReplayReader.unsignedInt(input, index, 4));
+                Long number = ReplayReader.unsignedInt(input, index, 4);
                 index += FOURBYTES;
                 result = number;
                 //System.out.println("number");
@@ -98,11 +98,7 @@ public class Header {
                 break;
             case 3: //LUA_TYPE_BOOL
                 Boolean value;
-                if (input[index] == 0) {
-                    value = false;
-                } else {
-                    value = true;
-                }
+                value = input[index] != 0;
                 result = value;
                 index++;
                 //System.out.println("Boolean");
@@ -168,9 +164,11 @@ public class Header {
      */
     static long setGameModsSize(FileInputStream thereplay) throws IOException {
         byte[] inputWord = new byte[FOURBYTES];
-        thereplay.read(inputWord);
-        long gameModsSize = ReplayReader.unsignedInt(inputWord, 0, FOURBYTES);
-        return gameModsSize;
+
+        //TODO: Why is this here?
+        //thereplay.read(inputWord);
+
+        return ReplayReader.unsignedInt(inputWord, 0, FOURBYTES);
     }
 
     /**

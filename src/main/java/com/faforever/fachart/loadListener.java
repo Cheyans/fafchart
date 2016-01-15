@@ -78,7 +78,6 @@ public class loadListener implements ActionListener {
 
                         //splitting it by newlines
                         String[] rp = new String(replaybytes).split("\\n");
-                        ;
                         if (rp.length == 2) {
                             //base64->binary (zlib compressed)
                             BASE64Decoder decoder = new BASE64Decoder();

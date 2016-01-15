@@ -16,7 +16,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
-import java.util.Scanner;
 
 /**
  * This program is a replay analyzer for Supreme Commander: Forged Alliance.
@@ -51,7 +50,7 @@ public class Main {
         JFrame frame = new JFrame("FAchart");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        UnitDBReader unitDBReader = new UnitDBReader();
+        FileUtil unitDBReader = new FileUtil();
         Hashtable<String, String> unitTable = unitDBReader.readUnitDb();
 
 
@@ -120,7 +119,6 @@ public class Main {
                         thereplay.read(replaybytes);
                         //splitting it by newlines
                         String[] rp = new String(replaybytes).split("\\n");
-                        ;
                         if (rp.length == 2) {
                             //base64->binary (zlib compressed)
                             BASE64Decoder decoder = new BASE64Decoder();
@@ -201,7 +199,7 @@ public class Main {
      * @return escaped path string
      */
     static public String unEscapeSpaceString(String fp) {
-        StringBuffer theFP = new StringBuffer(fp);
+        StringBuilder theFP = new StringBuilder(fp);
         while (theFP.lastIndexOf("*") != -1) {
             theFP.setCharAt(theFP.lastIndexOf("*"), ' ');
         }
