@@ -75,7 +75,7 @@ public class Main {
                 KeyEvent.VK_Q);
         quitMenuItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
-        quitMenuItem.addActionListener(new exitListener());
+        quitMenuItem.addActionListener(e -> System.exit(0));
         menu.add(quitMenuItem);
 
         frame.setJMenuBar(menuBar);

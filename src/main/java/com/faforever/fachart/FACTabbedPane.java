@@ -283,7 +283,7 @@ public class FACTabbedPane extends JTabbedPane implements ActionListener {
             );
             XYPlot plot = (XYPlot) chart.getPlot();
             plot.setBackgroundPaint(Color.BLACK);
-            plot.setRenderer((XYItemRenderer) new XYDifferenceRenderer(Color.green, Color.red, false));
+            plot.setRenderer(new XYDifferenceRenderer(Color.green, Color.red, false));
             macro.add(new ChartPanel(chart));
         }
 
@@ -302,7 +302,7 @@ public class FACTabbedPane extends JTabbedPane implements ActionListener {
         for (int i = 0; i < theReplay.NumSources; i++) {
             series[i] = new XYSeries(theReplay.CommandSource[i][0]);
             for (int j = 0; j < theReplay.APMS.get(i).size(); j++) {
-                series[i].add(((Point) theReplay.APMS.get(i).get(j)).x, ((Point) theReplay.APMS.get(i).get(j)).y);
+                series[i].add(theReplay.APMS.get(i).get(j).x, theReplay.APMS.get(i).get(j).y);
             }
             dataset.addSeries(series[i]);
             //XYSeries series = new XYSeries("60F_Sifnoc");

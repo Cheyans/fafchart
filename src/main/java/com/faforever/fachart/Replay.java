@@ -167,13 +167,17 @@ public class Replay {
                 break;
             case 3: //LUA_TYPE_BOOL
                 Boolean value;
-                value = input[array_index] != 0;
+                if (input[array_index] == 0) {
+                    value = false;
+                } else {
+                    value = true;
+                }
                 result = value;
                 array_index++;
 
                 break;
             case 4: //LUA_TYPE_TABLE_BEGIN
-                Hashtable<Object, Object> tableLevel = new Hashtable<>();
+                Hashtable<Object, Object> tableLevel = new Hashtable<Object, Object>();
                 while (input[array_index] != 5) {
                     Object key = parseLuaTable(input);
                     Object v = parseLuaTable(input);
@@ -230,11 +234,9 @@ public class Replay {
      */
     private void setGameModsSize(byte[] thereplay) {
         byte[] inputWord = new byte[FOURBYTES];
-        for (int i = 0; i < FOURBYTES; i++)
-            inputWord[i] = thereplay[index + i];
+        System.arraycopy(thereplay, index, inputWord, 0, FOURBYTES);
         index += FOURBYTES;
-        long gameModsSize = ReplayReader.unsignedInt(inputWord, 0, FOURBYTES);
-        GameModsSize = gameModsSize;
+        GameModsSize = ReplayReader.unsignedInt(inputWord, 0, FOURBYTES);
     }
 
     /**
@@ -251,8 +253,7 @@ public class Replay {
         for (int i = 0; i < size; i++)
             inputWord[i] = thereplay[index + i];
         index += size;
-        Hashtable<Object, Object> gameMods = (Hashtable<Object, Object>) parseLuaTable(inputWord);
-        GameMods = gameMods;
+        GameMods = (Hashtable<Object, Object>) parseLuaTable(inputWord);
     }
 
     /**
